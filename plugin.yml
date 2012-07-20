@@ -1,0 +1,10 @@
+name: Fact
+main: <packagename>.<MainClass>
+version: 0.0.1
+
+commands:
+  fact:
+    description: Share a fact with other players.
+    usage: /fact [message]
+    permission: fact.fact
+    permission-message: You don't have fact.fact
