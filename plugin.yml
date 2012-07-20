@@ -1,10 +1,16 @@
 name: Fact
 main: com.github.LeoVerto.Fact.Fact
-version: 0.0.1
+version: 0.1.0
+author: LeoVerto
 
 commands:
   fact:
     description: Share a fact with other players.
-    usage: /fact [message]
+    usage: /<command> [message]
     permission: fact.fact
-    permission-message: You don't have fact.fact
+    permission-message: You don't have <permission>!
+    
+permissions:
+  fact.fact:
+    description: Allows use of /fact
+    default: true
