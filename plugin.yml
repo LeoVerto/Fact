@@ -1,5 +1,5 @@
 name: Fact
-main: <packagename>.<MainClass>
+main: com.github.LeoVerto.Fact.Fact
 version: 0.0.1
 
 commands:
