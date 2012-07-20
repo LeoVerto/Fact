@@ -23,7 +23,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String commandLabel,
 	if(cmd.getName().equalsIgnoreCase("fact")){
 		String message = "";
 		for (int i = 0; i < args.length; i++) {
-			message = (message + args[i]);
+			message = (message + " " + args[i]);
 		}
 		player.sendMessage("Fact> "+ message);
 		return true;
