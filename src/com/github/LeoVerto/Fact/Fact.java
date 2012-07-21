@@ -20,9 +20,9 @@ public class Fact extends JavaPlugin {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command cmd, final String commandLabel, final String[] args) {
-		final Player player = (Player) sender;
 		if (cmd.getName().equalsIgnoreCase("fact")) {
 			if ((sender instanceof Player)) {
+				final Player player = (Player) sender;
 				if (player.hasPermission("fact.fact")) {
 					String message = "";
 					for (int i = 0; i < args.length; i++) {
@@ -31,6 +31,7 @@ public class Fact extends JavaPlugin {
 					Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Fact> " + ChatColor.WHITE + message);
 					return true;
 				} else {
+					player.sendMessage(this.getCommand("fact").getPermissionMessage());
 				}
 				return false;
 			} else {
