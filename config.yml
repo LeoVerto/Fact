@@ -1,8 +1,0 @@
-Fact:
-  Colors:
-    PlayerFact:
-      Fact: '&7'
-      Text: '&f'
-    ConsoleFact:
-      Fact: '&6'
-      Text: '&f'

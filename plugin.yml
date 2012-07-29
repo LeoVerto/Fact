@@ -1,6 +1,6 @@
 name: Fact
 main: com.github.LeoVerto.Fact.Fact
-version: 0.1.3
+version: 0.1.5
 author: LeoVerto
 
 commands:

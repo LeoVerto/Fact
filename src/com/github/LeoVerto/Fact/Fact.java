@@ -1,5 +1,8 @@
 package com.github.LeoVerto.Fact;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,12 +14,14 @@ public class Fact extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		loadConfiguration();
-		getLogger().info("Enabled " + this.getDescription().getName() + " version " + this.getDescription().getVersion() + " by " + this.getDescription().getAuthors() + ".");
+		getLogger().info("Enabled " + this.getDescription().getName() + " v" + this.getDescription().getVersion() + " by " + this.getDescription().getAuthors() + ".");
+		autoFacts();
 	}
 
 	@Override
 	public void onDisable() {
-		getLogger().info("Disabled Fact");
+		getServer().getScheduler().cancelTasks(this);
+		getLogger().info("Disabled " + this.getDescription().getName());
 	}
 
 	public void loadConfiguration() {
@@ -25,8 +30,39 @@ public class Fact extends JavaPlugin {
 		getConfig().addDefault(path + "Colors.PlayerFact.Text", "'&f'");
 		getConfig().addDefault(path + "Colors.ConsoleFact.Fact", "'&6'");
 		getConfig().addDefault(path + "Colors.ConsoleFact.Text", "'&f'");
+		getConfig().addDefault(path + "Colors.AutoFact.Fact", "'&3'");
+		getConfig().addDefault(path + "Colors.AutoFact.Text", "'&f'");
+		getConfig().addDefault(path + "Messages.AutoFact.Delay", 5);
+		getConfig().addDefault(path + "Messages.AutoFact.Facts",
+				Arrays.asList("This is a default fact.", "You can change autofacts in /plugins/Fact/config.yml", "Default stuff is usually bad, so please change this!"));
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+	}
+
+	public void autoFacts() {
+		
+		final long autoFactDelay = (getConfig().getLong("Fact.Messages.AutoFact.Delay") * 1200);
+		final List<?>	messages		= getConfig().getList("Fact.Messages.AutoFact.Facts");
+		final int		messageCount	= messages.size();
+		final String	FactColor		= ChatColor.translateAlternateColorCodes('&', getConfig().getString("Fact.Colors.AutoFact.Fact").replace("'", ""));
+		final String	TextColor		= ChatColor.translateAlternateColorCodes('&', getConfig().getString("Fact.Colors.AutoFact.Text").replace("'", ""));
+
+		getLogger().info("AutoFact Delay: " + Long.toString(autoFactDelay));
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			private int	messageNumber	= 0;
+
+			@Override
+			public void run() {
+				if (messageNumber < (messageCount)) {
+					Bukkit.getServer().broadcastMessage(FactColor + "AutoFact> " + TextColor + messages.get(messageNumber));
+					messageNumber++;
+				} else {
+					messageNumber = 0;
+					Bukkit.getServer().broadcastMessage(FactColor + "AutoFact> " + TextColor + messages.get(messageNumber));
+					messageNumber++;
+				}
+			}
+		}, 1200L, autoFactDelay);
 	}
 
 	@Override
@@ -35,8 +71,8 @@ public class Fact extends JavaPlugin {
 			if ((sender instanceof Player)) {
 				final Player player = (Player) sender;
 				if (player.hasPermission("fact.fact")) {
-					String FactColor = ChatColor.translateAlternateColorCodes('&',getConfig().getString("Fact.Colors.PlayerFact.Fact").replace("'", ""));
-					String TextColor = ChatColor.translateAlternateColorCodes('&',getConfig().getString("Fact.Colors.PlayerFact.Text").replace("'", ""));
+					final String FactColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Fact.Colors.PlayerFact.Fact").replace("'", ""));
+					final String TextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Fact.Colors.PlayerFact.Text").replace("'", ""));
 					String message = "";
 					for (int i = 0; i < args.length; i++) {
 						message = (message + " " + args[i]);
@@ -45,11 +81,11 @@ public class Fact extends JavaPlugin {
 					return true;
 				} else {
 					player.sendMessage(this.getCommand("fact").getPermissionMessage());
+					return false;
 				}
-				return false;
 			} else {
-				final String FactColor = ChatColor.translateAlternateColorCodes('&',getConfig().getString("Fact.Colors.ConsoleFact.Fact").replace("'", ""));
-				final String TextColor = ChatColor.translateAlternateColorCodes('&',getConfig().getString("Fact.Colors.ConsoleFact.Text").replace("'", ""));
+				final String FactColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Fact.Colors.ConsoleFact.Fact").replace("'", ""));
+				final String TextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Fact.Colors.ConsoleFact.Text").replace("'", ""));
 				String message = "";
 				for (int i = 0; i < args.length; i++) {
 					message = (message + " " + args[i]);
