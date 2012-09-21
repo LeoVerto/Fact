@@ -1,6 +1,6 @@
 name: Fact
 main: com.github.LeoVerto.Fact.Fact
-version: 0.2.0
+version: 0.3.0
 author: LeoVerto
 
 commands:
@@ -14,6 +14,12 @@ permissions:
   fact.fact:
     description: Allows use of /fact
     default: true
+  fact.receive:
+    description: Allows seeing new facts
+    default: op
+  fact.ignore:
+    description: Allows use of /fact ignore
+    default: true
   fact.reload:
-    description: Allows use of /fact  reload
+    description: Allows use of /fact reload
     default: op
