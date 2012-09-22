@@ -17,7 +17,6 @@ public class Fact extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		loadConfiguration();
-		getLogger().info("Enabled " + this.getDescription().getName() + " v" + this.getDescription().getVersion() + " by " + this.getDescription().getAuthors() + ".");
 		autoFacts();
 	}
 
@@ -25,7 +24,6 @@ public class Fact extends JavaPlugin {
 	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
 		playersIgnoring.clear();
-		getLogger().info("Disabled " + this.getDescription().getName());
 	}
 
 	public void loadConfiguration() {
@@ -38,11 +36,12 @@ public class Fact extends JavaPlugin {
 		getConfig().addDefault("Colors.AutoFact.Text", "'&f'");
 		getConfig().addDefault("Messages.AutoFact.Delay", 5);
 		getConfig().addDefault("Messages.AutoFact.Facts",
-				Arrays.asList("This is a default fact.", "You can change autofacts in /plugins/Fact/config.yml", "Default stuff is usually bad, so please change this!"));
+				Arrays.asList("This is a default autofact.", "You can change autofacts in /plugins/Fact/config.yml", "Default stuff is usually bad, so please change this!"));
 		getConfig().addDefault("Text.Fact", "Fact>");
 		getConfig().addDefault("Text.AutoFact", "AutoFact>");
 		getConfig().addDefault("Messages.Ignore.Ignoring", ("No longer displaying Fact messages!"));
 		getConfig().addDefault("Messages.Ignore.NotIgnoring", ("Now displaying Fact messages!"));
+		getConfig().addDefault("Messages.Reload", ("Reload complete!"));
 		getConfig().options().copyDefaults(true);
 		//Currently no header
 		//getConfig().options().copyHeader(true);
@@ -102,20 +101,25 @@ public class Fact extends JavaPlugin {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command cmd, final String commandLabel, final String[] args) {
 		if (cmd.getName().equalsIgnoreCase("fact")) {
+			//Reload command
 			if (args[0].equalsIgnoreCase("reload")) {
 				if ((sender instanceof Player)) {
 					final Player player = (Player) sender;
 					if (player.hasPermission("fact.reload")) {
 						loadConfiguration();
-						getLogger().info("Reload complete!");
+						player.sendMessage(getConfig().getString("Messages.Reload"));
+						getLogger().info(getConfig().getString("Messages.Reload"));
+						return true;
 					} else {
 						player.sendMessage(this.getCommand("fact").getPermissionMessage());
 						return false;
 					}
 				} else {
 					loadConfiguration();
-					getLogger().info("Reload complete!");
+					getLogger().info(getConfig().getString("Messages.Reload"));
+					return true;
 				}
+			//Ignore command
 			} else if (args[0].equalsIgnoreCase("ignore")) {
 				if ((sender instanceof Player)) {
 					final Player player = (Player) sender;
@@ -134,7 +138,9 @@ public class Fact extends JavaPlugin {
 					}
 				} else {
 					sender.sendMessage("You can only execute this command as a player!");
+					return true;
 				}
+			//Normal facts
 			} else {
 				if ((sender instanceof Player)) {
 					final Player player = (Player) sender;
