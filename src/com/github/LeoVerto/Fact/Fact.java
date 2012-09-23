@@ -107,6 +107,8 @@ public class Fact extends JavaPlugin {
 					final Player player = (Player) sender;
 					if (player.hasPermission("fact.reload")) {
 						loadConfiguration();
+						getServer().getScheduler().cancelTasks(this);
+						autoFacts();
 						player.sendMessage(getConfig().getString("Messages.Reload"));
 						getLogger().info(getConfig().getString("Messages.Reload"));
 						return true;
