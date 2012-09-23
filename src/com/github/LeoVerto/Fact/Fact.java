@@ -101,70 +101,74 @@ public class Fact extends JavaPlugin {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command cmd, final String commandLabel, final String[] args) {
 		if (cmd.getName().equalsIgnoreCase("fact")) {
-			//Reload command
-			if (args[0].equalsIgnoreCase("reload")) {
-				if ((sender instanceof Player)) {
-					final Player player = (Player) sender;
-					if (player.hasPermission("fact.reload")) {
+			if (args.length == 1) {
+				//Reload command
+				if (args[0].equalsIgnoreCase("reload")) {
+					if ((sender instanceof Player)) {
+						final Player player = (Player) sender;
+						if (player.hasPermission("fact.reload")) {
+							loadConfiguration();
+							getServer().getScheduler().cancelTasks(this);
+							autoFacts();
+							player.sendMessage(getConfig().getString("Messages.Reload"));
+							getLogger().info(getConfig().getString("Messages.Reload"));
+							return true;
+						} else {
+							player.sendMessage(this.getCommand("fact").getPermissionMessage());
+							return false;
+						}
+					} else {
 						loadConfiguration();
-						getServer().getScheduler().cancelTasks(this);
-						autoFacts();
-						player.sendMessage(getConfig().getString("Messages.Reload"));
 						getLogger().info(getConfig().getString("Messages.Reload"));
 						return true;
-					} else {
-						player.sendMessage(this.getCommand("fact").getPermissionMessage());
-						return false;
 					}
-				} else {
-					loadConfiguration();
-					getLogger().info(getConfig().getString("Messages.Reload"));
-					return true;
-				}
-			//Ignore command
-			} else if (args[0].equalsIgnoreCase("ignore")) {
-				if ((sender instanceof Player)) {
-					final Player player = (Player) sender;
-					if (player.hasPermission("fact.ignore")) {
-						if (playersIgnoring.contains(player) == false) {
-							playersIgnoring.add(player);
-							player.sendMessage(getConfig().getString("Messages.Ignore.Ignoring"));
+				//Ignore command
+				} else if (args[0].equalsIgnoreCase("ignore")) {
+					if ((sender instanceof Player)) {
+						final Player player = (Player) sender;
+						if (player.hasPermission("fact.ignore")) {
+							if (playersIgnoring.contains(player) == false) {
+								playersIgnoring.add(player);
+								player.sendMessage(getConfig().getString("Messages.Ignore.Ignoring"));
+							} else {
+								playersIgnoring.remove(player);
+								player.sendMessage(getConfig().getString("Messages.Ignore.NotIgnoring"));
+							}
+							return true;
 						} else {
-							playersIgnoring.remove(player);
-							player.sendMessage(getConfig().getString("Messages.Ignore.NotIgnoring"));
+							player.sendMessage(this.getCommand("fact").getPermissionMessage());
+							return false;
 						}
-						return true;
 					} else {
-						player.sendMessage(this.getCommand("fact").getPermissionMessage());
-						return false;
+						sender.sendMessage("You can only execute this command as a player!");
+						return true;
 					}
+					//Normal facts
 				} else {
-					sender.sendMessage("You can only execute this command as a player!");
-					return true;
-				}
-			//Normal facts
-			} else {
-				if ((sender instanceof Player)) {
-					final Player player = (Player) sender;
-					if (player.hasPermission("fact.fact")) {
+					if ((sender instanceof Player)) {
+						final Player player = (Player) sender;
+						if (player.hasPermission("fact.fact")) {
+							String message = "";
+							for (int i = 0; i < args.length; i++) {
+								message = (message + " " + args[i]);
+							}
+							sendFact(message, "player");
+							return true;
+						} else {
+							player.sendMessage(this.getCommand("fact").getPermissionMessage());
+							return false;
+						}
+					} else {
 						String message = "";
 						for (int i = 0; i < args.length; i++) {
 							message = (message + " " + args[i]);
 						}
-						sendFact(message, "player");
+						sendFact(message, "nonplayer");
 						return true;
-					} else {
-						player.sendMessage(this.getCommand("fact").getPermissionMessage());
-						return false;
 					}
-				} else {
-					String message = "";
-					for (int i = 0; i < args.length; i++) {
-						message = (message + " " + args[i]);
-					}
-					sendFact(message, "nonplayer");
-					return true;
 				}
+			} else {
+				return false;
 			}
 		}
 		return false;
