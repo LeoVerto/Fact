@@ -35,10 +35,12 @@ public class Fact extends JavaPlugin {
 		getConfig().addDefault("Colors.AutoFact.Fact", "'&3'");
 		getConfig().addDefault("Colors.AutoFact.Text", "'&f'");
 		getConfig().addDefault("Messages.AutoFact.Delay", 5);
-		getConfig().addDefault("Messages.AutoFact.Facts",
-				Arrays.asList("This is a default autofact.", "You can change autofacts in /plugins/Fact/config.yml", "Default stuff is usually bad, so please change this!"));
-		getConfig().addDefault("Text.Fact", "Fact>");
-		getConfig().addDefault("Text.AutoFact", "AutoFact>");
+		getConfig().addDefault(
+				"Messages.AutoFact.Facts",
+				Arrays.asList("This is a default autofact.", "You can change autofacts in /plugins/Fact/config.yml", "Water can be very dangerous!",
+						"Water is the leading case of drowning!", "All people exposed to water will die!"));
+		getConfig().addDefault("Prefixes.Fact", "Fact>");
+		getConfig().addDefault("Prefixes.AutoFact", "AutoFact>");
 		getConfig().addDefault("Messages.Ignore.Ignoring", ("No longer displaying Fact messages!"));
 		getConfig().addDefault("Messages.Ignore.NotIgnoring", ("Now displaying Fact messages!"));
 		getConfig().addDefault("Messages.Reload", ("Reload complete!"));
@@ -76,9 +78,10 @@ public class Fact extends JavaPlugin {
 		final String ConsoleTextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.ConsoleFact.Text").replace("'", ""));
 		final String AutoFactColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.AutoFact.Fact").replace("'", ""));
 		final String AutoTextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.AutoFact.Text").replace("'", ""));
-		final String FactText = getConfig().getString("Text.Fact");
-		final String AutoFactText = getConfig().getString("Text.AutoFact");
+		final String FactText = getConfig().getString("Prefixes.Fact");
+		final String AutoFactText = getConfig().getString("Prefixes.AutoFact");
 		final Player[] onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+		
 		for (int i = 0; i < onlinePlayers.length; i++) {
 			if (playersIgnoring.contains(Bukkit.getOnlinePlayers()[i]) == false) {
 				final Player player = onlinePlayers[i];
@@ -122,7 +125,7 @@ public class Fact extends JavaPlugin {
 						getLogger().info(getConfig().getString("Messages.Reload"));
 						return true;
 					}
-				//Ignore command
+					//Ignore command
 				} else if (args[0].equalsIgnoreCase("ignore")) {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
