@@ -1,0 +1,14 @@
+{{https://img1.minebook.me/gallery/33815_factlogo.0.5.3.png|Fact Logo}}
+Fact allows you to easily share facts related on your server, minecraft or anything else with everyone else on the server.
+=== Features ===
+* Share facts
+* AutoFact system with configurable delays
+* Fully configurable (colors, messages)
+* Reload command
+* Command to ignore new facts
+
+=== Commands & Permissions ===
+* No command - Receive new facts - fact.receive
+* /fact <text> - Send a fact to all non-ignoring players - fact.fact
+* /fact ignore - Ignore incoming facts - fact.ignore
+* /fact reload - Reload plugin - fact.reload
