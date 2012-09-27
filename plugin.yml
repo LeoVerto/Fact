@@ -23,3 +23,6 @@ permissions:
   fact.reload:
     description: Allows use of /fact reload
     default: op
+  fact.spy:
+    description: See who wrote a fact
+    default: op

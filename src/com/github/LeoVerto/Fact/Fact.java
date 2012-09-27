@@ -34,6 +34,7 @@ public class Fact extends JavaPlugin {
 		getConfig().addDefault("Colors.ConsoleFact.Text", "'&f'");
 		getConfig().addDefault("Colors.AutoFact.Fact", "'&3'");
 		getConfig().addDefault("Colors.AutoFact.Text", "'&f'");
+		getConfig().addDefault("Colors.Player", "'&8'");
 		getConfig().addDefault("Messages.AutoFact.Delay", 5);
 		getConfig().addDefault(
 				"Messages.AutoFact.Facts",
@@ -60,26 +61,27 @@ public class Fact extends JavaPlugin {
 			@Override
 			public void run() {
 				if (messageNumber < (messageCount)) {
-					sendFact((String) messages.get(messageNumber), "auto");
+					sendFact((String) messages.get(messageNumber), "auto", "");
 					messageNumber++;
 				} else {
 					messageNumber = 0;
-					sendFact((String) messages.get(messageNumber), "auto");
+					sendFact((String) messages.get(messageNumber), "auto", "");
 					messageNumber++;
 				}
 			}
 		}, 1200L, autoFactDelay);
 	}
 
-	public <player> void sendFact(final String message, final String type) {
+	public <player> void sendFact(final String message, final String type, final String sender) {
 		final String FactColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.PlayerFact.Fact").replace("'", ""));
 		final String TextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.PlayerFact.Text").replace("'", ""));
 		final String ConsoleFactColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.ConsoleFact.Fact").replace("'", ""));
 		final String ConsoleTextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.ConsoleFact.Text").replace("'", ""));
 		final String AutoFactColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.AutoFact.Fact").replace("'", ""));
 		final String AutoTextColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.AutoFact.Text").replace("'", ""));
-		final String FactText = getConfig().getString("Prefixes.Fact");
-		final String AutoFactText = getConfig().getString("Prefixes.AutoFact");
+		final String PlayerColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.Player").replace("'", ""));
+		final String FactPrefix = getConfig().getString("Prefixes.Fact");
+		final String AutoFactPrefix = getConfig().getString("Prefixes.AutoFact");
 		final Player[] onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 		
 		for (int i = 0; i < onlinePlayers.length; i++) {
@@ -87,17 +89,25 @@ public class Fact extends JavaPlugin {
 				final Player player = onlinePlayers[i];
 				if (player.hasPermission("fact.receive")) {
 					if (type.equals("player")) {
-						onlinePlayers[i].sendMessage(FactColor + FactText + " " + TextColor + message);
+						if (player.hasPermission("fact.spy") && !sender.equals("")) {
+							onlinePlayers[i].sendMessage(PlayerColor + "(" + sender + ")" + FactColor + FactPrefix + " " + TextColor + message);
+						} else {
+							onlinePlayers[i].sendMessage(FactColor + FactPrefix + " " + TextColor + message);
+						}
 					} else if (type.equals("auto")) {
-						onlinePlayers[i].sendMessage(AutoFactColor + AutoFactText + " " + AutoTextColor + message);
+						onlinePlayers[i].sendMessage(AutoFactColor + AutoFactPrefix + " " + AutoTextColor + message);
 					} else {
-						onlinePlayers[i].sendMessage(ConsoleFactColor + FactText + " " + ConsoleTextColor + message);
+						onlinePlayers[i].sendMessage(ConsoleFactColor + FactPrefix + " " + ConsoleTextColor + message);
 					}
 				}
 			}
 		}
 		if (!type.equals("auto")) {
-			getLogger().info(FactText + " " + message);
+			if (type.equals("player") && !sender.equals("")) {
+				getLogger().info("(" + sender + ")" + FactPrefix + " " + message);
+			} else {
+				getLogger().info(FactPrefix + " " + message);
+			}
 		}
 	}
 
@@ -125,7 +135,7 @@ public class Fact extends JavaPlugin {
 						getLogger().info(getConfig().getString("Messages.Reload"));
 						return true;
 					}
-					//Ignore command
+				//Ignore command
 				} else if (args[0].equalsIgnoreCase("ignore")) {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
@@ -146,7 +156,7 @@ public class Fact extends JavaPlugin {
 						sender.sendMessage("You can only execute this command as a player!");
 						return true;
 					}
-					//Normal facts
+				//Normal facts
 				} else {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
@@ -155,7 +165,7 @@ public class Fact extends JavaPlugin {
 							for (int i = 0; i < args.length; i++) {
 								message = (message + " " + args[i]);
 							}
-							sendFact(message, "player");
+							sendFact(message, "player", player.getName());
 							return true;
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
@@ -166,7 +176,7 @@ public class Fact extends JavaPlugin {
 						for (int i = 0; i < args.length; i++) {
 							message = (message + " " + args[i]);
 						}
-						sendFact(message, "nonplayer");
+						sendFact(message, "nonplayer", "");
 						return true;
 					}
 				}
