@@ -114,9 +114,9 @@ public class Fact extends JavaPlugin {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command cmd, final String commandLabel, final String[] args) {
 		if (cmd.getName().equalsIgnoreCase("fact")) {
-			if (args.length == 1) {
+			if (args.length >= 1) {
 				//Reload command
-				if (args[0].equalsIgnoreCase("reload")) {
+				if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
 						if (player.hasPermission("fact.reload")) {
@@ -128,7 +128,7 @@ public class Fact extends JavaPlugin {
 							return true;
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-							return false;
+							return true;
 						}
 					} else {
 						loadConfiguration();
@@ -136,7 +136,7 @@ public class Fact extends JavaPlugin {
 						return true;
 					}
 				//Ignore command
-				} else if (args[0].equalsIgnoreCase("ignore")) {
+				} else if (args.length == 1 && args[0].equalsIgnoreCase("ignore")) {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
 						if (player.hasPermission("fact.ignore")) {
@@ -150,7 +150,7 @@ public class Fact extends JavaPlugin {
 							return true;
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-							return false;
+							return true;
 						}
 					} else {
 						sender.sendMessage("You can only execute this command as a player!");
@@ -169,7 +169,7 @@ public class Fact extends JavaPlugin {
 							return true;
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-							return false;
+							return true;
 						}
 					} else {
 						String message = "";
