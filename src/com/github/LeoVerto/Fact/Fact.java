@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Fact extends JavaPlugin {
-	HashSet<Player>	playersIgnoring	= new HashSet<Player>();
+	HashSet<String>	playersIgnoring	= new HashSet<String>();
 
 	@Override
 	public void onEnable() {
@@ -85,7 +85,7 @@ public class Fact extends JavaPlugin {
 		final Player[] onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 		
 		for (int i = 0; i < onlinePlayers.length; i++) {
-			if (playersIgnoring.contains(Bukkit.getOnlinePlayers()[i]) == false) {
+			if (!playersIgnoring.contains(onlinePlayers[i].getName())) {
 				final Player player = onlinePlayers[i];
 				if (player.hasPermission("fact.receive")) {
 					if (type.equals("player")) {
@@ -139,12 +139,13 @@ public class Fact extends JavaPlugin {
 				} else if (args.length == 1 && args[0].equalsIgnoreCase("ignore")) {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
+						final String name = player.getName();
 						if (player.hasPermission("fact.ignore")) {
-							if (playersIgnoring.contains(player) == false) {
-								playersIgnoring.add(player);
+							if (playersIgnoring.contains(name) == false) {
+								playersIgnoring.add(name);
 								player.sendMessage(getConfig().getString("Messages.Ignore.Ignoring"));
 							} else {
-								playersIgnoring.remove(player);
+								playersIgnoring.remove(name);
 								player.sendMessage(getConfig().getString("Messages.Ignore.NotIgnoring"));
 							}
 							return true;
