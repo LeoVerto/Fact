@@ -28,13 +28,13 @@ public class Fact extends JavaPlugin {
 
 	public void loadConfiguration() {
 		reloadConfig();
-		getConfig().addDefault("Colors.PlayerFact.Fact", "'&7'");
-		getConfig().addDefault("Colors.PlayerFact.Text", "'&f'");
-		getConfig().addDefault("Colors.ConsoleFact.Fact", "'&6'");
-		getConfig().addDefault("Colors.ConsoleFact.Text", "'&f'");
-		getConfig().addDefault("Colors.AutoFact.Fact", "'&3'");
-		getConfig().addDefault("Colors.AutoFact.Text", "'&f'");
-		getConfig().addDefault("Colors.Player", "'&8'");
+		getConfig().addDefault("Colors.PlayerFact.Fact", "&7");
+		getConfig().addDefault("Colors.PlayerFact.Text", "&f");
+		getConfig().addDefault("Colors.ConsoleFact.Fact", "&6");
+		getConfig().addDefault("Colors.ConsoleFact.Text", "&f");
+		getConfig().addDefault("Colors.AutoFact.Fact", "&3");
+		getConfig().addDefault("Colors.AutoFact.Text", "&f");
+		getConfig().addDefault("Colors.Player", "&8");
 		getConfig().addDefault("Messages.AutoFact.Delay", 5);
 		getConfig().addDefault(
 				"Messages.AutoFact.Facts",
@@ -53,7 +53,7 @@ public class Fact extends JavaPlugin {
 
 	public void autoFacts() {
 		final long autoFactDelay = (getConfig().getLong("Messages.AutoFact.Delay") * 1200);
-		final List<?> messages = getConfig().getList("Messages.AutoFact.Facts");
+		final List<String> messages = getConfig().getStringList("Messages.AutoFact.Facts");
 		final int messageCount = messages.size();
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			private int	messageNumber	= 0;
