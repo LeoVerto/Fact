@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 package io.github.LeoVerto.Fact;
-=======
-package com.github.LeoVerto.Fact;
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -40,16 +36,9 @@ public class Fact extends JavaPlugin {
 		getConfig().addDefault("Colors.AutoFact.Text", "&f");
 		getConfig().addDefault("Colors.Player", "&8");
 		getConfig().addDefault("Messages.AutoFact.Delay", 5);
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 		getConfig().addDefault("Messages.AutoFact.Facts",
 				Arrays.asList("This is a default autofact.", "Water is the leading case of drowning!", 
 						"You can change autofacts in /plugins/Fact/config.yml",	"All people exposed to water will die!"));
-=======
-		getConfig().addDefault(
-				"Messages.AutoFact.Facts",
-				Arrays.asList("This is a default autofact.", "You can change autofacts in /plugins/Fact/config.yml", "Water can be very dangerous!",
-						"Water is the leading case of drowning!", "All people exposed to water will die!"));
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 		getConfig().addDefault("Prefixes.Fact", "Fact>");
 		getConfig().addDefault("Prefixes.AutoFact", "AutoFact>");
 		getConfig().addDefault("Messages.Ignore.Ignoring", ("No longer displaying Fact messages!"));
@@ -66,11 +55,7 @@ public class Fact extends JavaPlugin {
 		final List<String> messages = getConfig().getStringList("Messages.AutoFact.Facts");
 		final int messageCount = messages.size();
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 			private int	messageNumber = 0;
-=======
-			private int	messageNumber	= 0;
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 
 			@Override
 			public void run() {
@@ -139,27 +124,15 @@ public class Fact extends JavaPlugin {
 							autoFacts();
 							player.sendMessage(getConfig().getString("Messages.Reload"));
 							getLogger().info(getConfig().getString("Messages.Reload"));
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-=======
-							return true;
-						} else {
-							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-							return true;
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 						}
 					} else {
 						loadConfiguration();
 						getLogger().info(getConfig().getString("Messages.Reload"));
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 					}
 					return true;
 					
-=======
-						return true;
-					}
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 				//Ignore command
 				} else if (args.length == 1 && args[0].equalsIgnoreCase("ignore")) {
 					if ((sender instanceof Player)) {
@@ -173,7 +146,6 @@ public class Fact extends JavaPlugin {
 								playersIgnoring.remove(name);
 								player.sendMessage(getConfig().getString("Messages.Ignore.NotIgnoring"));
 							}
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
 						}
@@ -182,17 +154,6 @@ public class Fact extends JavaPlugin {
 					}
 					return true;
 					
-=======
-							return true;
-						} else {
-							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-							return true;
-						}
-					} else {
-						sender.sendMessage("You can only execute this command as a player!");
-						return true;
-					}
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 				//Normal facts
 				} else {
 					if ((sender instanceof Player)) {
@@ -203,15 +164,8 @@ public class Fact extends JavaPlugin {
 								message = (message + " " + args[i]);
 							}
 							sendFact(message, "player", player.getName());
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 						} else {
 							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-=======
-							return true;
-						} else {
-							player.sendMessage(this.getCommand("fact").getPermissionMessage());
-							return true;
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 						}
 					} else {
 						String message = "";
@@ -219,17 +173,9 @@ public class Fact extends JavaPlugin {
 							message = (message + " " + args[i]);
 						}
 						sendFact(message, "nonplayer", "");
-<<<<<<< HEAD:src/io/github/LeoVerto/Fact/Fact.java
 					}
 					return true;
 				}
-=======
-						return true;
-					}
-				}
-			} else {
-				return false;
->>>>>>> f1b1409e441a3a6cf3f816465476b566565923f6:src/com/github/LeoVerto/Fact/Fact.java
 			}
 		}
 		return false;

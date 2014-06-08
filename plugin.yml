@@ -1,5 +1,5 @@
 name: Fact
-main: com.github.LeoVerto.Fact.Fact
+main: io.github.LeoVerto.Fact.Fact
 version: 0.3.4
 author: LeoVerto
 dev-url: http://dev.bukkit.org/server-mods/fact/
@@ -27,3 +27,4 @@ permissions:
   fact.spy:
     description: See who wrote a fact
     default: op
+
