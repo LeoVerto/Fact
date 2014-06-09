@@ -7,9 +7,10 @@ dev-url: http://dev.bukkit.org/server-mods/fact/
 commands:
   fact:
     description: Share a fact with other players.
-    usage: /<command> [message]
-    permission: fact.fact
-    permission-message: You don't have permission!
+    usage: |
+      /<command> <message> - Send out a fact
+      /<command> ignore - Do not display future facts until run again
+      /<command> reload - Reload plugin
     
 permissions:
   fact.fact:
@@ -17,7 +18,7 @@ permissions:
     default: true
   fact.receive:
     description: Allows seeing new facts
-    default: op
+    default: true
   fact.ignore:
     description: Allows use of /fact ignore
     default: true
