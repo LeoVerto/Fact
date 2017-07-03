@@ -13,3 +13,4 @@
 */lib/*
 */target/*
 */.settings/*
+/target/

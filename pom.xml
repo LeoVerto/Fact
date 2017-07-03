@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.LeoVerto.Fact</groupId>
   <artifactId>Fact</artifactId>
-  <version>0.3.5</version>
+  <version>0.4.0</version>
   <build>
-    <sourceDirectory>src</sourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -20,15 +20,15 @@
   <url>https://github.com/LeoVerto/Fact</url>
   <repositories>
     <repository>
-      <id>bukkit-repo</id>
-      <url>http://repo.bukkit.org/content/groups/public/</url>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
   </repositories>
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.7.9-R0.2</version>
+      <version>1.12-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
