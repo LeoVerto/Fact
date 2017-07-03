@@ -1,8 +1,10 @@
 package io.github.LeoVerto.Fact;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Fact extends JavaPlugin {
-	HashSet<String>	playersIgnoring	= new HashSet<String>();
+	HashSet<UUID> playersIgnoring = new HashSet<UUID>();
 
 	@Override
 	public void onEnable() {
@@ -37,7 +39,7 @@ public class Fact extends JavaPlugin {
 		getConfig().addDefault("Colors.Player", "&8");
 		getConfig().addDefault("Messages.AutoFact.Delay", 5);
 		getConfig().addDefault("Messages.AutoFact.Facts",
-				Arrays.asList("This is a default autofact.", "Water is the leading case of drowning!", 
+				Arrays.asList("This is a default autofact.", "Water is the leading cause of drowning!", 
 						"You can change autofacts in /plugins/Fact/config.yml",	"All people exposed to water will die!"));
 		getConfig().addDefault("Prefixes.Fact", "Fact>");
 		getConfig().addDefault("Prefixes.AutoFact", "AutoFact>");
@@ -81,22 +83,21 @@ public class Fact extends JavaPlugin {
 		final String PlayerColor = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Colors.Player").replace("'", ""));
 		final String FactPrefix = getConfig().getString("Prefixes.Fact");
 		final String AutoFactPrefix = getConfig().getString("Prefixes.AutoFact");
-		final Player[] onlinePlayers = Bukkit.getServer().getOnlinePlayers();
+		final Collection<? extends Player> onlinePlayers = Bukkit.getServer().getOnlinePlayers();
 		
-		for (int i = 0; i < onlinePlayers.length; i++) {
-			if (!playersIgnoring.contains(onlinePlayers[i].getName())) {
-				final Player player = onlinePlayers[i];
+		for (Player player: onlinePlayers) {
+			if (!playersIgnoring.contains(player.getUniqueId())) {
 				if (player.hasPermission("fact.receive")) {
 					if (type.equals("player")) {
 						if (player.hasPermission("fact.spy") && !sender.equals("")) {
-							onlinePlayers[i].sendMessage(PlayerColor + "(" + sender + ")" + FactColor + FactPrefix + " " + TextColor + message);
+							player.sendMessage(PlayerColor + "(" + sender + ")" + FactColor + FactPrefix + " " + TextColor + message);
 						} else {
-							onlinePlayers[i].sendMessage(FactColor + FactPrefix + " " + TextColor + message);
+							player.sendMessage(FactColor + FactPrefix + " " + TextColor + message);
 						}
 					} else if (type.equals("auto")) {
-						onlinePlayers[i].sendMessage(AutoFactColor + AutoFactPrefix + " " + AutoTextColor + message);
+						player.sendMessage(AutoFactColor + AutoFactPrefix + " " + AutoTextColor + message);
 					} else {
-						onlinePlayers[i].sendMessage(ConsoleFactColor + FactPrefix + " " + ConsoleTextColor + message);
+						player.sendMessage(ConsoleFactColor + FactPrefix + " " + ConsoleTextColor + message);
 					}
 				}
 			}
@@ -137,13 +138,13 @@ public class Fact extends JavaPlugin {
 				} else if (args.length == 1 && args[0].equalsIgnoreCase("ignore")) {
 					if ((sender instanceof Player)) {
 						final Player player = (Player) sender;
-						final String name = player.getName();
+						final UUID uuid = player.getUniqueId();
 						if (player.hasPermission("fact.ignore")) {
-							if (playersIgnoring.contains(name) == false) {
-								playersIgnoring.add(name);
+							if (playersIgnoring.contains(uuid) == false) {
+								playersIgnoring.add(uuid);
 								player.sendMessage(getConfig().getString("Messages.Ignore.Ignoring"));
 							} else {
-								playersIgnoring.remove(name);
+								playersIgnoring.remove(uuid);
 								player.sendMessage(getConfig().getString("Messages.Ignore.NotIgnoring"));
 							}
 						} else {
